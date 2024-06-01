@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../state/color/random_color.dart';
 import '../state/counter/counter.dart';
 
 @immutable
@@ -11,7 +12,10 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var counter = ref.watch(counterProvider);
 
+    var color = ref.watch(randomColorProvider);
+
     return Scaffold(
+      backgroundColor: color,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('xxx'),
@@ -24,6 +28,7 @@ class HomeScreen extends ConsumerWidget {
               counter.toString(),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -40,6 +45,20 @@ class HomeScreen extends ConsumerWidget {
                   child: const Text('-'),
                 ),
               ],
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(randomColorProvider.notifier).changeColor();
+              },
+              child: const Text('color'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(randomColorProvider.notifier).getColor();
+              },
+              child: const Text('list color'),
             ),
           ],
         ),
